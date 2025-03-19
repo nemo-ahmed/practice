@@ -1,4 +1,9 @@
-import {yourOrderPlease} from './codeWars/yourOrderPlease';
+export function yourOrderPlease(words: string): string {
+  return words
+    .split(' ')
+    .sort((a, b) => Number(a.match(/[1-9]/g)) - Number(b.match(/[1-9]/g)))
+    .join(' ');
+}
 
 console.log(yourOrderPlease('is2 Thi1s T4est 3a'), 'Thi1s is2 3a T4est');
 console.log(

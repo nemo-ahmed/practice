@@ -55,3 +55,6 @@ export function caesarCipher(s: string, k: number): string {
     );
   }, '');
 }
+
+console.log(caesarCipher('Hello_World!', 4));
+console.log(caesarCipher('www.abc.xy', 87));

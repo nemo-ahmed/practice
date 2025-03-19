@@ -1,6 +1,6 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.caesarCipher = void 0;
+exports.caesarCipher = caesarCipher;
 /*
  * Complete the 'caesarCipher' function below.
  *
@@ -43,7 +43,6 @@ function caesarCipher(s, k) {
     while (kFixed > alphabets.length) {
         kFixed -= alphabets.length;
     }
-    console.log(kFixed, k);
     return s.split('').reduce((acc, ele) => {
         let index = alphabets.indexOf(ele.toUpperCase());
         if (index === -1)
@@ -55,4 +54,3 @@ function caesarCipher(s, k) {
             (/[A-Z]/.test(ele) ? alphabets[index] : alphabets[index].toLowerCase()));
     }, '');
 }
-exports.caesarCipher = caesarCipher;
