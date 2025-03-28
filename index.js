@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const yourOrderPlease_1 = require("./codeWars/yourOrderPlease");
-console.log((0, yourOrderPlease_1.yourOrderPlease)('is2 Thi1s T4est 3a'), 'Thi1s is2 3a T4est');
-console.log((0, yourOrderPlease_1.yourOrderPlease)('4of Fo1r pe6ople g3ood th5e the2'), 'Fo1r the2 g3ood 4of th5e pe6ople');
-console.log((0, yourOrderPlease_1.yourOrderPlease)(''), '');
+const sortByPerfsq_1 = require("./codeWars/sortByPerfsq");
+// console.log(sortByPerfsq([715, 112, 136, 169, 144]), [169, 144, 112, 136, 715]);
+// console.log(
+//   sortByPerfsq([234, 61, 16, 441, 144, 728]),
+//   [144, 441, 16, 61, 234, 728],
+// );
+console.log((0, sortByPerfsq_1.sortByPerfsq)([4468, 446689, 169, 4477, 1345689]), [1345689, 169, 4468, 4477, 446689]);

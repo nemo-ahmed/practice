@@ -54,3 +54,5 @@ function caesarCipher(s, k) {
             (/[A-Z]/.test(ele) ? alphabets[index] : alphabets[index].toLowerCase()));
     }, '');
 }
+console.log(caesarCipher('Hello_World!', 4));
+console.log(caesarCipher('www.abc.xy', 87));
