@@ -1,3 +1,4 @@
+// ? https://www.codewars.com/kata/52c4dd683bfd3b434c000292/train/javascript
 // ? Interesting numbers are 3-or-more digit numbers that meet one or more of the following criteria:
 // ? - Any digit followed by all zeros: 100, 90000
 // ? - Every digit is the same number: 1111
