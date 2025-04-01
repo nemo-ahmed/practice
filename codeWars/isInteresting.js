@@ -1,4 +1,5 @@
 "use strict";
+// ? https://www.codewars.com/kata/52c4dd683bfd3b434c000292/train/javascript
 // ? Interesting numbers are 3-or-more digit numbers that meet one or more of the following criteria:
 // ? - Any digit followed by all zeros: 100, 90000
 // ? - Every digit is the same number: 1111
@@ -30,12 +31,12 @@ function isInteresting(number, awesomePhrases) {
             return 1;
         }
     }
+    // TODO: Replace for manual sort like. for handling sorted but boring
     const sorted = [...nArr].sort((a, b) => Number(a) - Number(b));
     const isIncremental = nArr.at(-1) === '0'
         ? Number(sorted.join('')) ===
             Number(nArr.slice(0, nArr.length - 1).join(''))
         : Number(sorted.join('')) === number;
-    console.log(number, awesomePhrases, nArr.slice(-2), nArr.slice(-2).join('') === '09', Number(sorted.join('')), Number(nArr.slice(0, nArr.length - 1).join('')), Number(sorted.join('')), number);
     const isDecremental = Number(sorted.reverse().join('')) === number;
     const allTheSame = nArr.filter(val => val === nArr[0]).length === nArr.length;
     const isHundreds = nArr.length > 2 &&
@@ -77,6 +78,7 @@ const runFn = () => {
     console.log(isInteresting(99919911, []), 0);
     console.log(isInteresting(101, []), 2);
     console.log(isInteresting(67890, []), 2);
+    // TODO: Almost numbers
     console.log(isInteresting(98, []), 1);
     console.log(isInteresting(3208, []), 1);
     console.log(isInteresting(119, []), 1);

@@ -1,2 +1,3 @@
-import {runFn} from './codeWars/isInteresting';
-runFn();
+import {run} from './codeWars/sripComments';
+
+run();
