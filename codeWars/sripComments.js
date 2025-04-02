@@ -6,7 +6,7 @@ function sss(text, markers) {
     if (nMarkers.length === 0) {
         return text.at(-2) !== '\n' ? text.trimEnd() : text;
     }
-    let res = [];
+    const res = [];
     let isDeleting = false;
     const nText = text.split('');
     for (let x = 0; x < nText.length; x++) {
