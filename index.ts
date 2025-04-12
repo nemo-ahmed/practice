@@ -1,3 +1,3 @@
-import {run} from './codeWars/addingBigNumbers';
+import {run} from './codeWars/generateBC';
 
 run();
