@@ -6,6 +6,7 @@ function arrayManipulation(n: number, queries: number[][]): number {
       arr[i] = (arr[i] ?? 0) + filler;
     }
   });
+  console.log(arr);
   return Math.max(...Object.values(arr));
 }
 

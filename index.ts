@@ -1,3 +1,3 @@
-import {run} from './codeWars/generateBC';
+import {run} from './maze/maze';
 
 run();

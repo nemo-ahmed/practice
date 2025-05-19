@@ -12,7 +12,7 @@ function getPath(matrix: number[][]) {
           obj[x - 1].includes(i) ||
           (i < elements.length && obj[x - 1].includes(i + 1)) ||
           (i > 0 && obj[x - 1].includes(i - 1)) ||
-          obj[x].includes(i + 1))
+          obj[x].includes(i - 1))
       ) {
         acc.push(i);
         matrix[x][i] = 9;

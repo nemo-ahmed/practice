@@ -11,9 +11,30 @@ function generateBC(url, separator) {
     }
     return arr
         .map((bc, i) => {
-        const text = bc.split(/[.?#]/)[0].replace(/-/g, ' ').toUpperCase();
+        const link = i === 0 ? 'home' : bc.split(/[.?#]/)[0];
+        const text = (link.length <= 30
+            ? link.replace(/-/g, ' ')
+            : link
+                .split('-')
+                .map(w => [
+                'the',
+                'of',
+                'in',
+                'from',
+                'by',
+                'with',
+                'and',
+                'or',
+                'for',
+                'to',
+                'at',
+                'a',
+            ].includes(w)
+                ? ''
+                : w[0])
+                .join('')).toUpperCase();
         return i < arr.length - 1
-            ? `<a href="/${i === 0 ? '' : arr.slice(1, i + 1).join('/') + '/'}">${i === 0 ? 'home' : text}</a>`
+            ? `<a href="/${i === 0 ? '' : arr.slice(1, i + 1).join('/') + '/'}">${text}</a>`
             : `<span class="active">${text}</span>`;
     })
         .join(separator);

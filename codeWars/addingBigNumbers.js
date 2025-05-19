@@ -11,13 +11,11 @@ function add(a, b) {
         .reduce((acc, str, i, arr) => {
         var _a, _b;
         let sum = carry + Number(str) + Number((_a = other[i]) !== null && _a !== void 0 ? _a : 0);
-        console.log({ sum, i, carry }, arr.length - 1, arr.length - 1 > i);
         carry = 0;
         if (sum > 9 && arr.length - 1 > i) {
             carry = Number((_b = sum.toString()[0]) !== null && _b !== void 0 ? _b : 0);
             sum = Number(sum.toString()[1]);
         }
-        console.log({ sum, carry });
         return sum + acc;
     }, '');
 }
