@@ -29,18 +29,6 @@ function notSoBad(matrix: number[][]) {
 
 function getPath(matrix: number[][]) {
   const obj: Record<number, number[]> = {};
-  const isValid =
-    matrix.filter((row, i) => {
-      obj[i] = row.reduce((acc: number[], n, j) => {
-        if (n === 0) {
-          acc.push(j);
-          return acc;
-        }
-        return acc;
-      }, []);
-      return row.includes(0);
-    }).length < matrix.length;
-  console.log(obj);
 
   // ? Walls are not needed to find the path.
   // ? Removing far away paths
@@ -67,16 +55,12 @@ function getPath(matrix: number[][]) {
     return res;
   }, [] as number[]);
 
-  // ! Next step mapping the matrix with the found path
+  // ? honestly I wanted to walk through the line path but it didn't make much sense
   return Object.entries(obj).map(([x, arr]) => {
     return matrix[Number(x)].map((n, i) =>
       arr.includes(i) ? REPLACING_NUMBER : n,
     );
   }, []);
-
-  console.log(obj);
-  if (!isValid) return matrix;
-  return matrix;
 }
 
 export function run(matrix: number[][], answer: number[][]) {
