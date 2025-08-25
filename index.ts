@@ -1,3 +1,1 @@
-import {run} from './maze/maze';
-
-run();
+import './maze/maze';

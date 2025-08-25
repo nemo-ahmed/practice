@@ -11,7 +11,6 @@ const DATA = {
 };
 function climbingLeaderboard(ranked, player) {
     const rankingSet = Array.from(new Set([...ranked, ...player])).sort((a, b) => b - a);
-    console.log(rankingSet);
     return player.map(p => rankingSet.findIndex(r => p === r) + 1);
 }
 function main() {

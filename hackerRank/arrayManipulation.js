@@ -18,7 +18,6 @@ function arrayManipulation(n, queries) {
             max = sum;
         }
     }
-    console.log(max);
     return max;
 }
 function main() {
