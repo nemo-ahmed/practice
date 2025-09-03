@@ -1,1 +1,1 @@
-import './maze/maze';
+import './codeWars/primeStreamingOne';

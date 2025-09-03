@@ -27,40 +27,67 @@ function notSoBad(matrix: number[][]) {
   return matrix;
 }
 
+export const gridValidation = (
+  matrix: number[][],
+  fn?: (row: number[], i: number) => void,
+) =>
+  matrix.reduce((validation: boolean[], row, i) => {
+    fn?.(row, i);
+
+    const isRowValid = row.includes(0) && row.includes(1);
+    if (!isRowValid) return validation;
+    return [...validation, isRowValid];
+  }, []).length === matrix.length;
+
 function getPath(matrix: number[][]) {
+  const solution = [...matrix];
   const obj: Record<number, number[]> = {};
+  const isValid = gridValidation(matrix, (row, i) => {
+    obj[i] = row.reduce((acc: number[], n, j) => {
+      if (n === 0) {
+        acc.push(j);
+        return acc;
+      }
+      return acc;
+    }, []);
+  });
+
+  if (!isValid) return matrix;
 
   // ? Walls are not needed to find the path.
   // ? Removing far away paths
-  Object.values(obj).reduce((prev, curr, i, xxx) => {
-    if (i === xxx.length - 1) return curr;
+  let curr = -1;
+  for (const i in obj) {
+    const row = obj[i];
+    if (row.length === 1) {
+      curr = row[0];
+      solution[i][row[0]] = REPLACING_NUMBER;
+      continue;
+    } else if (Number(i) === matrix.length - 1) {
+      obj[i] = [curr];
+      solution[i][curr] = REPLACING_NUMBER;
+      break;
+    }
 
-    const res = curr.filter(
-      x =>
-        // ? Checking Side ways
-        curr.includes(x - 1) ||
-        curr.includes(x + 1) ||
-        // ? Checking Bottom
-        (obj[i + 1]?.length &&
-          (obj[i + 1].includes(x) ||
-            (obj[i + 1].includes(x) && obj[i + 1].includes(x - 1)) ||
-            (obj[i + 1].includes(x) && obj[i + 1].includes(x + 1)))) ||
-        // ? Checking Top
-        (obj[i - 1]?.length &&
-          (obj[i - 1].includes(x) ||
-            (obj[i - 1].includes(x) && obj[i - 1].includes(x - 1)) ||
-            (obj[i - 1].includes(x) && obj[i - 1].includes(x + 1)))),
+    const res = row.filter(
+      (x, _, arr) =>
+        obj[Number(i) + 1]?.includes(x) ||
+        (arr.length === 0
+          ? (curr !== -1 && curr === x) ||
+            (i === '0' && obj[Number(i) + 1]?.includes(x)) // ? First row or same column
+          : (curr !== -1 && curr === x) ||
+            ((arr.includes(x - 1) || arr.includes(x + 1)) && // ? Checking Side ways
+              (row.includes(x + 1) ||
+                row.includes(x - 1) ||
+                // ? Checking Bottom
+                obj[Number(i) + 1]?.includes(x)))),
     );
     obj[i] = res;
-    return res;
-  }, [] as number[]);
-
-  // ? honestly I wanted to walk through the line path but it didn't make much sense
-  return Object.entries(obj).map(([x, arr]) => {
-    return matrix[Number(x)].map((n, i) =>
-      arr.includes(i) ? REPLACING_NUMBER : n,
-    );
-  }, []);
+    res.forEach(n => {
+      solution[i][n] = REPLACING_NUMBER;
+    });
+    curr = [...res].pop() ?? -1;
+  }
 }
 
 export function run(matrix: number[][], answer: number[][]) {
