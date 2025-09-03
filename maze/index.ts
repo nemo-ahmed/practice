@@ -1,32 +1,5 @@
 const REPLACING_NUMBER = 9;
 
-function notSoBad(matrix: number[][]) {
-  const obj: Record<number, number[]> = {};
-  matrix.map((elements, x) => {
-    return elements.reduce((acc: number[], n, i) => {
-      if (
-        n === 0 &&
-        ((x < matrix.length && x > 0) ||
-          (matrix[x + 1] && matrix[x + 1][i] === 0) ||
-          (matrix[x][i + 1] && matrix[x][i + 1] === 0) ||
-          (matrix[x][i - 1] && matrix[x][i - 1] === 0)) &&
-        (x === 0 ||
-          obj[x - 1].includes(i) ||
-          (i < elements.length && obj[x - 1].includes(i + 1)) ||
-          (i > 0 && obj[x - 1].includes(i - 1)) ||
-          obj[x].includes(i - 1))
-      ) {
-        acc.push(i);
-        matrix[x][i] = REPLACING_NUMBER;
-      }
-      obj[x] = acc;
-      return acc;
-    }, []);
-  });
-
-  return matrix;
-}
-
 export const gridValidation = (
   matrix: number[][],
   fn?: (row: number[], i: number) => void,
@@ -40,9 +13,11 @@ export const gridValidation = (
   }, []).length === matrix.length;
 
 function getPath(matrix: number[][]) {
-  const solution = [...matrix];
+  const solution = JSON.parse(JSON.stringify(matrix));
   const obj: Record<number, number[]> = {};
+
   const isValid = gridValidation(matrix, (row, i) => {
+    // ? Walls are not needed to find the path.
     obj[i] = row.reduce((acc: number[], n, j) => {
       if (n === 0) {
         acc.push(j);
@@ -54,9 +29,9 @@ function getPath(matrix: number[][]) {
 
   if (!isValid) return matrix;
 
-  // ? Walls are not needed to find the path.
-  // ? Removing far away paths
   let curr = -1;
+
+  // ? finding the shortest paths
   for (const i in obj) {
     const row = obj[i];
     if (row.length === 1) {
@@ -71,16 +46,17 @@ function getPath(matrix: number[][]) {
 
     const res = row.filter(
       (x, _, arr) =>
+        // ? Straight
         obj[Number(i) + 1]?.includes(x) ||
-        (arr.length === 0
-          ? (curr !== -1 && curr === x) ||
-            (i === '0' && obj[Number(i) + 1]?.includes(x)) // ? First row or same column
+        // ? Check if its surrounded with 3 walls
+        ((!row.includes(x - 1) || !row.includes(x + 1)) &&
+        !obj[Number(i) + 1].includes(x) &&
+        obj[Number(i) - 1] &&
+        !obj[Number(i) - 1]?.includes(x)
+          ? false
           : (curr !== -1 && curr === x) ||
             ((arr.includes(x - 1) || arr.includes(x + 1)) && // ? Checking Side ways
-              (row.includes(x + 1) ||
-                row.includes(x - 1) ||
-                // ? Checking Bottom
-                obj[Number(i) + 1]?.includes(x)))),
+              (row.includes(x + 1) || row.includes(x - 1)))),
     );
     obj[i] = res;
     res.forEach(n => {
@@ -88,6 +64,7 @@ function getPath(matrix: number[][]) {
     });
     curr = [...res].pop() ?? -1;
   }
+  return solution;
 }
 
 export function run(matrix: number[][], answer: number[][]) {
@@ -95,14 +72,8 @@ export function run(matrix: number[][], answer: number[][]) {
   const isIgnore = JSON.stringify(res) === JSON.stringify(matrix);
   if (isIgnore) return res;
   const isResolved = JSON.stringify(res) === JSON.stringify(answer);
-  // ? This check is for helping making a satisfying result
-  const isTrash =
-    matrix.filter(row => row.filter(x => x === 0)).length === matrix.length
-      ? false
-      : JSON.stringify(res) ===
-        JSON.stringify(matrix).replace(/0/g, REPLACING_NUMBER.toString());
-  const isMeh = JSON.stringify(notSoBad(matrix)) === JSON.stringify(answer);
-  return [res, answer, {isResolved, isMeh, isTrash}];
+
+  return [res, answer, {isResolved}];
 }
 
 console.log(
@@ -116,7 +87,7 @@ console.log(
     [
       [1, REPLACING_NUMBER, 1, 1, 0, 1],
       [1, REPLACING_NUMBER, REPLACING_NUMBER, 1, 1, 0],
-      [1, 1, REPLACING_NUMBER, REPLACING_NUMBER, 1, 1],
+      [1, 1, REPLACING_NUMBER, 0, 1, 1],
       [1, 1, REPLACING_NUMBER, 1, 1, 1],
     ],
   ),
@@ -202,7 +173,7 @@ console.log(
       ],
       [
         1,
-        REPLACING_NUMBER,
+        0,
         REPLACING_NUMBER,
         REPLACING_NUMBER,
         REPLACING_NUMBER,
